@@ -31,4 +31,4 @@ jobs:
 
       - name: 🧪 Run Tests
         working-directory: server
-        run: go test ./... --cover -coverprofile reports/coverage.out
+        run: go test ./... --cover -coverprofile reports/coverage
