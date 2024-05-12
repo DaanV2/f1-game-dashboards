@@ -1,0 +1,19 @@
+syntax = "proto3";
+option go_package = ".;grpc_gen";
+package api.v1;
+
+service ChairService {
+    rpc GetChair(ChairRequest) returns (Chair);
+}
+
+message ChairRequest {
+    string name = 1;
+}
+
+message ChairResponse {
+    Chair chair = 1;
+}
+
+message Chair {
+    string name = 1;
+}
