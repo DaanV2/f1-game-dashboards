@@ -7,8 +7,8 @@ import (
 )
 
 type PacketWithChair[T any] struct {
-	Chair  *sessions.Chair // The chair the packet came from
-	Packet T               // The packet
+	Chair  sessions.Chair // The chair the packet came from
+	Packet T              // The packet
 }
 
 type PacketPipeline struct {
