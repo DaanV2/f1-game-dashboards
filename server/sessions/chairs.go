@@ -49,8 +49,8 @@ func NewChairManager() *ChairManager {
 	}
 }
 
-// AddChair adds a chair to the chair manager
-func (cm *ChairManager) AddChair(chair Chair) {
+// Add adds a chair to the chair manager
+func (cm *ChairManager) Add(chair Chair) {
 	cm.chairs_lock.Lock()
 	defer cm.chairs_lock.Unlock()
 
@@ -58,8 +58,8 @@ func (cm *ChairManager) AddChair(chair Chair) {
 	cm.OnChairAdded.Call(chair)
 }
 
-// UpdateChair updates a chair in the chair manager
-func (cm *ChairManager) UpdateChair(chair Chair) {
+// Update updates a chair in the chair manager
+func (cm *ChairManager) Update(chair Chair) {
 	cm.chairs_lock.Lock()
 	defer cm.chairs_lock.Unlock()
 
@@ -67,8 +67,8 @@ func (cm *ChairManager) UpdateChair(chair Chair) {
 	cm.OnChairUpdated.Call(chair)
 }
 
-// GetChair gets a chair from the chair manager
-func (cm *ChairManager) GetChair(id string) (Chair, bool) {
+// Get gets a chair from the chair manager
+func (cm *ChairManager) Get(id string) (Chair, bool) {
 	cm.chairs_lock.RLock()
 	defer cm.chairs_lock.RUnlock()
 
@@ -76,8 +76,8 @@ func (cm *ChairManager) GetChair(id string) (Chair, bool) {
 	return c, ok
 }
 
-// RemoveChair removes a chair from the chair manager
-func (cm *ChairManager) RemoveChair(id string) {
+// Remove removes a chair from the chair manager
+func (cm *ChairManager) Remove(id string) {
 	cm.chairs_lock.Lock()
 	defer cm.chairs_lock.Unlock()
 
@@ -90,8 +90,8 @@ func (cm *ChairManager) RemoveChair(id string) {
 	cm.OnChairRemoved.Call(ch)
 }
 
-// Chairs returns all the chairs in the chair manager
-func (cm *ChairManager) Chairs() map[string]Chair {
+// All returns all the chairs in the chair manager
+func (cm *ChairManager) All() map[string]Chair {
 	cm.chairs_lock.RLock()
 	defer cm.chairs_lock.RUnlock()
 

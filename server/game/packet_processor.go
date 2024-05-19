@@ -42,7 +42,7 @@ type (
 )
 
 // PacketOption is a function that modifies the packet processor
-func NewPacketProcessor(chairs *sessions.ChairManager, options ...PacketOption) *PacketProcessor {
+func NewPacketProcessor(options ...PacketOption) *PacketProcessor {
 	opts := packetProcessorOptions{}
 	opts._default()
 	opts.apply(options...)
@@ -54,15 +54,19 @@ func NewPacketProcessor(chairs *sessions.ChairManager, options ...PacketOption) 
 		pipeline: NewPacketPipeline(),
 	}
 
-	chairs.OnChairAdded.Add(processor.handleChairAdded)
-	chairs.OnChairRemoved.Add(processor.handleChairRemoved)
-	chairs.OnChairUpdated.Add(processor.handleChairUpdated)
-
-	for _, chair := range chairs.Chairs() {
-		processor.handleChairAdded(chair)
-	}
-
 	return processor
+}
+
+func (pp *PacketProcessor) AddChairHooks(chairs *sessions.ChairManager) {
+	chairs.OnChairAdded.Add(pp.handleChairAdded)
+	chairs.OnChairRemoved.Add(pp.handleChairRemoved)
+	chairs.OnChairUpdated.Add(pp.handleChairUpdated)
+}
+
+func (pp *PacketProcessor) AddChairs(chairs *sessions.ChairManager) {
+	for _, chair := range chairs.All() {
+		pp.handleChairAdded(chair)
+	}
 }
 
 // Close closes the packet processor

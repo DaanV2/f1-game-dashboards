@@ -20,7 +20,7 @@ type grpcServerOptions struct {
 type grpcServer struct {
 	grpc_gen.UnimplementedChairServiceServer
 
-	chairs *sessions.ChairManager
+	chairs           *sessions.ChairManager
 
 	grpc *grpc.Server
 
@@ -30,9 +30,10 @@ type grpcServer struct {
 func newGrpcServer(chairs *sessions.ChairManager, options grpcServerOptions) *grpcServer {
 	return &grpcServer{
 		UnimplementedChairServiceServer: grpc_gen.UnimplementedChairServiceServer{},
-		chairs:                          chairs,
-		options:                         options,
-		grpc:                            nil,
+
+		chairs:           chairs,
+		options:          options,
+		grpc:             nil,
 	}
 }
 
@@ -54,7 +55,7 @@ func (s *grpcServer) Start() error {
 	reflection.Register(s.grpc)
 
 	go func() {
-		
+
 		err := s.grpc.Serve(lis)
 		if errors.Is(err, grpc.ErrServerStopped) {
 			log.Info("grpc server stopped")

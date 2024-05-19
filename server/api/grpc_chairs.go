@@ -27,14 +27,14 @@ func (s *grpcServer) CreateChair(ctx context.Context, req *grpc_gen.CreateChairR
 	requestChair := chairFromProto(c)
 	logger.Info("checking if chair exists")
 	
-	_, exists := s.chairs.GetChair(requestChair.Id())
+	_, exists := s.chairs.Get(requestChair.Id())
 	if exists {
 		logger.Warn("chair already exists")
 		return &response, status.Error(codes.AlreadyExists, "chair already exists")
 	}
 
 	logger.Info("adding chair")
-	s.chairs.AddChair(requestChair)
+	s.chairs.Add(requestChair)
 	response.Chair = chairToProto(requestChair)
 	return &response, nil
 }
@@ -55,13 +55,13 @@ func (s *grpcServer) DeleteChair(ctx context.Context, req *grpc_gen.DeleteChairR
 	}
 
 	log.Info("deleting chair", "port", port)
-	_, exists := s.chairs.GetChair(port)
+	_, exists := s.chairs.Get(port)
 	if !exists {
 		logger.Info("chair not found")
 		return &response, status.Error(codes.NotFound, "chair not found")
 	}
 
-	s.chairs.RemoveChair(port)
+	s.chairs.Remove(port)
 
 	return &response, nil
 }
@@ -77,7 +77,7 @@ func (s *grpcServer) GetChair(ctx context.Context, req *grpc_gen.GetChairRequest
 	}
 	logger.Info("getting chair")
 
-	chair, exists := s.chairs.GetChair(port)
+	chair, exists := s.chairs.Get(port)
 	if !exists {
 		logger.Info("chair not found")
 		return &response, status.Error(codes.NotFound, "chair not found")
@@ -98,7 +98,7 @@ func (s *grpcServer) UpdateChair(ctx context.Context, req *grpc_gen.UpdateChairR
 	requestChair := chairFromProto(c)
 
 	logger = logger.With("port", requestChair.Port)
-	oldChair, exists := s.chairs.GetChair(requestChair.Id())
+	oldChair, exists := s.chairs.Get(requestChair.Id())
 	if !exists {
 		logger.Info("chair not found")
 		return &response, status.Error(codes.NotFound, "chair not found")
@@ -115,14 +115,14 @@ func (s *grpcServer) UpdateChair(ctx context.Context, req *grpc_gen.UpdateChairR
 	)
 	response.Chair = chairToProto(updateChair)
 
-	s.chairs.UpdateChair(updateChair)
+	s.chairs.Update(updateChair)
 	
 	return &response, nil
 }
 
 // ListChairs implements grpc_gen.ChairServiceServer.
 func (s *grpcServer) ListChairs(context.Context, *grpc_gen.ListChairsRequest) (*grpc_gen.ListChairsResponse, error) {
-	chairs := s.chairs.Chairs()
+	chairs := s.chairs.All()
 
 	chrs := make([]*grpc_gen.Chair, 0, len(chairs))
 	response := grpc_gen.ListChairsResponse{

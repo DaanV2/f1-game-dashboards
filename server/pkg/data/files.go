@@ -116,7 +116,11 @@ func (ds *DirectoryStorage[T]) Keys() []string {
 			continue
 		}
 
-		keys = append(keys, file.Name())
+		filename := file.Name()
+		ext := path.Ext(filename)
+		filename = filename[:len(filename)-len(ext)]
+
+		keys = append(keys, filename)
 	}
 
 	return keys
