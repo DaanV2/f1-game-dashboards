@@ -27,7 +27,7 @@ type (
 		parser   *f1_2023.PacketParser
 		pipeline *PacketPipeline
 
-		chairs map[int]*chairSession
+		chairs map[string]*chairSession
 	}
 
 	chairSession struct {
@@ -48,7 +48,7 @@ func NewPacketProcessor(chairs *sessions.ChairManager, options ...PacketOption) 
 	opts.apply(options...)
 
 	processor := &PacketProcessor{
-		chairs:   make(map[int]*chairSession),
+		chairs:   make(map[string]*chairSession),
 		options:  opts,
 		parser:   f1_2023.NewPacketParser(),
 		pipeline: NewPacketPipeline(),
@@ -77,7 +77,7 @@ func (pp *PacketProcessor) Close() {
 // handleChairAdded handles the added chair events
 func (pp *PacketProcessor) handleChairAdded(chair sessions.Chair) {
 	id := chair.Id()
-	logger := log.With("id", id, "name", chair.Name())
+	logger := log.With("id", id, "name", chair.Name)
 	logger.Info("starting server on chair...")
 
 	session, ok := pp.chairs[id]
@@ -107,7 +107,7 @@ func (pp *PacketProcessor) handleChairAdded(chair sessions.Chair) {
 
 // handleChairRemoved handles the removed chair events
 func (pp *PacketProcessor) handleChairRemoved(chair sessions.Chair) {
-	logger := log.With("id", chair.Id(), "name", chair.Name())
+	logger := log.With("id", chair.Id(), "name", chair.Name)
 	logger.Info("closing server on chair...")
 
 	session, ok := pp.chairs[chair.Id()]
@@ -130,7 +130,7 @@ func (pp *PacketProcessor) handleChairRemoved(chair sessions.Chair) {
 
 // handleChairUpdated handles the updated chair events
 func (pp *PacketProcessor) handleChairUpdated(chair sessions.Chair) {
-	logger := log.With("id", chair.Id(), "name", chair.Name(), "active", chair.IsActive())
+	logger := log.With("id", chair.Id(), "name", chair.Name, "active", chair.Active)
 	logger.Info("updating")
 
 	// If the chair is not present, add it and process it through that route
@@ -169,7 +169,7 @@ func (cs *chairSession) Stop() error {
 
 // Start starts the processing of packets for the given chair
 func (cp *chairProcessor) Start() (err error) {
-	logger := log.With("port", cp.session.chair.Port, "name", cp.session.chair.Name())
+	logger := log.With("port", cp.session.chair.Port, "name", cp.session.chair.Name)
 	var (
 		buf     [max_packet_size]byte
 		n       int
@@ -183,7 +183,7 @@ func (cp *chairProcessor) Start() (err error) {
 	}()
 
 	// host:port
-	listenAddress := fmt.Sprintf("%s:%d", cp.processor.options.host, cp.session.chair.Port())
+	listenAddress := fmt.Sprintf("%s:%d", cp.processor.options.host, cp.session.chair.Port)
 	udpAddr, err := net.ResolveUDPAddr("udp", listenAddress)
 	if err != nil {
 		return err
@@ -207,7 +207,7 @@ func (cp *chairProcessor) Start() (err error) {
 			logger.Error("error reading from udp", "error", err)
 
 			// If the chair is not active, skip the packet
-		} else if cp.session.chair.IsActive() {
+		} else if cp.session.chair.Active {
 			err := cp.handlePacket(buf[:n])
 			if err != nil {
 				logger.Error("error handling packet", "error", err, "ip", address.IP, "port", address.Port)

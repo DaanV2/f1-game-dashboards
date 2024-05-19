@@ -1,19 +1,75 @@
 syntax = "proto3";
+package chairs.v1;
 option go_package = ".;grpc_gen";
-package api.v1;
 
+// ChairService is a service for managing chairs
 service ChairService {
-    rpc GetChair(ChairRequest) returns (Chair);
+    // CreateChair gets a chair by id
+    rpc CreateChair(CreateChairRequest) returns (CreateChairResponse);
+    // GetChair gets a chair by id
+    rpc GetChair(GetChairRequest) returns (GetChairResponse);
+    // ListChairs lists all chairs
+    rpc ListChairs(ListChairsRequest) returns (ListChairsResponse);
+    // UpdateChair updates a chair
+    rpc UpdateChair(UpdateChairRequest) returns (UpdateChairResponse);
+    // DeleteChair deletes a chair
+    rpc DeleteChair(DeleteChairRequest) returns (DeleteChairResponse);
 }
 
-message ChairRequest {
-    string name = 1;
+// CreateChairRequest is a request to get a chair by id
+message CreateChairRequest {
+    Chair chair = 1; // the upd port of the chair
 }
 
-message ChairResponse {
+// CreateChairResponse is a response to a CreateChairRequest
+message CreateChairResponse {
     Chair chair = 1;
 }
 
+// GetChairRequest is a request to get a chair by id
+message GetChairRequest {
+    string port = 1; // the upd port of the chair
+}
+
+// GetChairResponse is a response to a GetChairRequest
+message GetChairResponse {
+    Chair chair = 1;
+}
+
+// UpdateChairRequest is a request to update a chair. Ports can only be updated by an admin
+message UpdateChairRequest {
+    Chair chair = 1; // the upd port of the chair
+}
+
+// UpdateChairResponse is a response to an UpdateChairRequest
+message UpdateChairResponse {
+    Chair chair = 1;
+}
+
+// ListChairsRequest is a request to list all chairs
+message ListChairsRequest {
+}
+
+message ListChairsResponse {
+    repeated Chair chairs = 1;
+}
+
+// DeleteChairRequest is a request to delete a chair. Can only be an admin
+message DeleteChairRequest {
+    string port = 1; // the upd port of the chair
+}
+
+// DeleteChairResponse is a response to a DeleteChairRequest
+message DeleteChairResponse {
+    Chair chair = 1;
+}
+
+// Chair is a chair
 message Chair {
+    // name is the name of the chair
     string name = 1;
+    // active is whether the chair is driving or not
+    bool active = 2;
+    // the upd port of the chair
+    int32 port = 3;
 }

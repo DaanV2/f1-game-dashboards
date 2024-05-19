@@ -20,16 +20,17 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type ChairRequest struct {
+// CreateChairRequest is a request to get a chair by id
+type CreateChairRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Chair *Chair `protobuf:"bytes,1,opt,name=chair,proto3" json:"chair,omitempty"` // the upd port of the chair
 }
 
-func (x *ChairRequest) Reset() {
-	*x = ChairRequest{}
+func (x *CreateChairRequest) Reset() {
+	*x = CreateChairRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_chairs_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -37,13 +38,13 @@ func (x *ChairRequest) Reset() {
 	}
 }
 
-func (x *ChairRequest) String() string {
+func (x *CreateChairRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ChairRequest) ProtoMessage() {}
+func (*CreateChairRequest) ProtoMessage() {}
 
-func (x *ChairRequest) ProtoReflect() protoreflect.Message {
+func (x *CreateChairRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_chairs_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -55,19 +56,20 @@ func (x *ChairRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ChairRequest.ProtoReflect.Descriptor instead.
-func (*ChairRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateChairRequest.ProtoReflect.Descriptor instead.
+func (*CreateChairRequest) Descriptor() ([]byte, []int) {
 	return file_chairs_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *ChairRequest) GetName() string {
+func (x *CreateChairRequest) GetChair() *Chair {
 	if x != nil {
-		return x.Name
+		return x.Chair
 	}
-	return ""
+	return nil
 }
 
-type ChairResponse struct {
+// CreateChairResponse is a response to a CreateChairRequest
+type CreateChairResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -75,8 +77,8 @@ type ChairResponse struct {
 	Chair *Chair `protobuf:"bytes,1,opt,name=chair,proto3" json:"chair,omitempty"`
 }
 
-func (x *ChairResponse) Reset() {
-	*x = ChairResponse{}
+func (x *CreateChairResponse) Reset() {
+	*x = CreateChairResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_chairs_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -84,13 +86,13 @@ func (x *ChairResponse) Reset() {
 	}
 }
 
-func (x *ChairResponse) String() string {
+func (x *CreateChairResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ChairResponse) ProtoMessage() {}
+func (*CreateChairResponse) ProtoMessage() {}
 
-func (x *ChairResponse) ProtoReflect() protoreflect.Message {
+func (x *CreateChairResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_chairs_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -102,30 +104,410 @@ func (x *ChairResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ChairResponse.ProtoReflect.Descriptor instead.
-func (*ChairResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateChairResponse.ProtoReflect.Descriptor instead.
+func (*CreateChairResponse) Descriptor() ([]byte, []int) {
 	return file_chairs_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *ChairResponse) GetChair() *Chair {
+func (x *CreateChairResponse) GetChair() *Chair {
 	if x != nil {
 		return x.Chair
 	}
 	return nil
 }
 
+// GetChairRequest is a request to get a chair by id
+type GetChairRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Port string `protobuf:"bytes,1,opt,name=port,proto3" json:"port,omitempty"` // the upd port of the chair
+}
+
+func (x *GetChairRequest) Reset() {
+	*x = GetChairRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chairs_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetChairRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetChairRequest) ProtoMessage() {}
+
+func (x *GetChairRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_chairs_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetChairRequest.ProtoReflect.Descriptor instead.
+func (*GetChairRequest) Descriptor() ([]byte, []int) {
+	return file_chairs_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetChairRequest) GetPort() string {
+	if x != nil {
+		return x.Port
+	}
+	return ""
+}
+
+// GetChairResponse is a response to a GetChairRequest
+type GetChairResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Chair *Chair `protobuf:"bytes,1,opt,name=chair,proto3" json:"chair,omitempty"`
+}
+
+func (x *GetChairResponse) Reset() {
+	*x = GetChairResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chairs_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetChairResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetChairResponse) ProtoMessage() {}
+
+func (x *GetChairResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_chairs_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetChairResponse.ProtoReflect.Descriptor instead.
+func (*GetChairResponse) Descriptor() ([]byte, []int) {
+	return file_chairs_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetChairResponse) GetChair() *Chair {
+	if x != nil {
+		return x.Chair
+	}
+	return nil
+}
+
+// UpdateChairRequest is a request to update a chair. Ports can only be updated by an admin
+type UpdateChairRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Chair *Chair `protobuf:"bytes,1,opt,name=chair,proto3" json:"chair,omitempty"` // the upd port of the chair
+}
+
+func (x *UpdateChairRequest) Reset() {
+	*x = UpdateChairRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chairs_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateChairRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateChairRequest) ProtoMessage() {}
+
+func (x *UpdateChairRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_chairs_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateChairRequest.ProtoReflect.Descriptor instead.
+func (*UpdateChairRequest) Descriptor() ([]byte, []int) {
+	return file_chairs_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UpdateChairRequest) GetChair() *Chair {
+	if x != nil {
+		return x.Chair
+	}
+	return nil
+}
+
+// UpdateChairResponse is a response to an UpdateChairRequest
+type UpdateChairResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Chair *Chair `protobuf:"bytes,1,opt,name=chair,proto3" json:"chair,omitempty"`
+}
+
+func (x *UpdateChairResponse) Reset() {
+	*x = UpdateChairResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chairs_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateChairResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateChairResponse) ProtoMessage() {}
+
+func (x *UpdateChairResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_chairs_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateChairResponse.ProtoReflect.Descriptor instead.
+func (*UpdateChairResponse) Descriptor() ([]byte, []int) {
+	return file_chairs_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *UpdateChairResponse) GetChair() *Chair {
+	if x != nil {
+		return x.Chair
+	}
+	return nil
+}
+
+// ListChairsRequest is a request to list all chairs
+type ListChairsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *ListChairsRequest) Reset() {
+	*x = ListChairsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chairs_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListChairsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListChairsRequest) ProtoMessage() {}
+
+func (x *ListChairsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_chairs_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListChairsRequest.ProtoReflect.Descriptor instead.
+func (*ListChairsRequest) Descriptor() ([]byte, []int) {
+	return file_chairs_proto_rawDescGZIP(), []int{6}
+}
+
+type ListChairsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Chairs []*Chair `protobuf:"bytes,1,rep,name=chairs,proto3" json:"chairs,omitempty"`
+}
+
+func (x *ListChairsResponse) Reset() {
+	*x = ListChairsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chairs_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListChairsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListChairsResponse) ProtoMessage() {}
+
+func (x *ListChairsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_chairs_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListChairsResponse.ProtoReflect.Descriptor instead.
+func (*ListChairsResponse) Descriptor() ([]byte, []int) {
+	return file_chairs_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ListChairsResponse) GetChairs() []*Chair {
+	if x != nil {
+		return x.Chairs
+	}
+	return nil
+}
+
+// DeleteChairRequest is a request to delete a chair. Can only be an admin
+type DeleteChairRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Port string `protobuf:"bytes,1,opt,name=port,proto3" json:"port,omitempty"` // the upd port of the chair
+}
+
+func (x *DeleteChairRequest) Reset() {
+	*x = DeleteChairRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chairs_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteChairRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteChairRequest) ProtoMessage() {}
+
+func (x *DeleteChairRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_chairs_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteChairRequest.ProtoReflect.Descriptor instead.
+func (*DeleteChairRequest) Descriptor() ([]byte, []int) {
+	return file_chairs_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *DeleteChairRequest) GetPort() string {
+	if x != nil {
+		return x.Port
+	}
+	return ""
+}
+
+// DeleteChairResponse is a response to a DeleteChairRequest
+type DeleteChairResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Chair *Chair `protobuf:"bytes,1,opt,name=chair,proto3" json:"chair,omitempty"`
+}
+
+func (x *DeleteChairResponse) Reset() {
+	*x = DeleteChairResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chairs_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteChairResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteChairResponse) ProtoMessage() {}
+
+func (x *DeleteChairResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_chairs_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteChairResponse.ProtoReflect.Descriptor instead.
+func (*DeleteChairResponse) Descriptor() ([]byte, []int) {
+	return file_chairs_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *DeleteChairResponse) GetChair() *Chair {
+	if x != nil {
+		return x.Chair
+	}
+	return nil
+}
+
+// Chair is a chair
 type Chair struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// name is the name of the chair
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// active is whether the chair is driving or not
+	Active bool `protobuf:"varint,2,opt,name=active,proto3" json:"active,omitempty"`
+	// the upd port of the chair
+	Port int32 `protobuf:"varint,3,opt,name=port,proto3" json:"port,omitempty"`
 }
 
 func (x *Chair) Reset() {
 	*x = Chair{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_chairs_proto_msgTypes[2]
+		mi := &file_chairs_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -138,7 +520,7 @@ func (x *Chair) String() string {
 func (*Chair) ProtoMessage() {}
 
 func (x *Chair) ProtoReflect() protoreflect.Message {
-	mi := &file_chairs_proto_msgTypes[2]
+	mi := &file_chairs_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -151,7 +533,7 @@ func (x *Chair) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Chair.ProtoReflect.Descriptor instead.
 func (*Chair) Descriptor() ([]byte, []int) {
-	return file_chairs_proto_rawDescGZIP(), []int{2}
+	return file_chairs_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *Chair) GetName() string {
@@ -161,22 +543,89 @@ func (x *Chair) GetName() string {
 	return ""
 }
 
+func (x *Chair) GetActive() bool {
+	if x != nil {
+		return x.Active
+	}
+	return false
+}
+
+func (x *Chair) GetPort() int32 {
+	if x != nil {
+		return x.Port
+	}
+	return 0
+}
+
 var File_chairs_proto protoreflect.FileDescriptor
 
 var file_chairs_proto_rawDesc = []byte{
-	0x0a, 0x0c, 0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x22,
-	0x0a, 0x0c, 0x43, 0x68, 0x61, 0x69, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12,
-	0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61,
-	0x6d, 0x65, 0x22, 0x2d, 0x0a, 0x0d, 0x43, 0x68, 0x61, 0x69, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x1c, 0x0a, 0x05, 0x63, 0x68, 0x61, 0x69, 0x72, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x06, 0x2e, 0x43, 0x68, 0x61, 0x69, 0x72, 0x52, 0x05, 0x63, 0x68, 0x61, 0x69,
-	0x72, 0x22, 0x1b, 0x0a, 0x05, 0x43, 0x68, 0x61, 0x69, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61,
-	0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x32, 0x31,
-	0x0a, 0x0c, 0x43, 0x68, 0x61, 0x69, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x21,
-	0x0a, 0x08, 0x47, 0x65, 0x74, 0x43, 0x68, 0x61, 0x69, 0x72, 0x12, 0x0d, 0x2e, 0x43, 0x68, 0x61,
-	0x69, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x06, 0x2e, 0x43, 0x68, 0x61, 0x69,
-	0x72, 0x42, 0x0c, 0x5a, 0x0a, 0x2e, 0x3b, 0x67, 0x72, 0x70, 0x63, 0x5f, 0x67, 0x65, 0x6e, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x0a, 0x0c, 0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x09,
+	0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x22, 0x3c, 0x0a, 0x12, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x43, 0x68, 0x61, 0x69, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x26, 0x0a, 0x05, 0x63, 0x68, 0x61, 0x69, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10,
+	0x2e, 0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x68, 0x61, 0x69, 0x72,
+	0x52, 0x05, 0x63, 0x68, 0x61, 0x69, 0x72, 0x22, 0x3d, 0x0a, 0x13, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x43, 0x68, 0x61, 0x69, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x26,
+	0x0a, 0x05, 0x63, 0x68, 0x61, 0x69, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e,
+	0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x68, 0x61, 0x69, 0x72, 0x52,
+	0x05, 0x63, 0x68, 0x61, 0x69, 0x72, 0x22, 0x25, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x43, 0x68, 0x61,
+	0x69, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x6f, 0x72,
+	0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x70, 0x6f, 0x72, 0x74, 0x22, 0x3a, 0x0a,
+	0x10, 0x47, 0x65, 0x74, 0x43, 0x68, 0x61, 0x69, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x26, 0x0a, 0x05, 0x63, 0x68, 0x61, 0x69, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x10, 0x2e, 0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x68, 0x61,
+	0x69, 0x72, 0x52, 0x05, 0x63, 0x68, 0x61, 0x69, 0x72, 0x22, 0x3c, 0x0a, 0x12, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x43, 0x68, 0x61, 0x69, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x26, 0x0a, 0x05, 0x63, 0x68, 0x61, 0x69, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10,
+	0x2e, 0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x68, 0x61, 0x69, 0x72,
+	0x52, 0x05, 0x63, 0x68, 0x61, 0x69, 0x72, 0x22, 0x3d, 0x0a, 0x13, 0x55, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x43, 0x68, 0x61, 0x69, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x26,
+	0x0a, 0x05, 0x63, 0x68, 0x61, 0x69, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e,
+	0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x68, 0x61, 0x69, 0x72, 0x52,
+	0x05, 0x63, 0x68, 0x61, 0x69, 0x72, 0x22, 0x13, 0x0a, 0x11, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x68,
+	0x61, 0x69, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x3e, 0x0a, 0x12, 0x4c,
+	0x69, 0x73, 0x74, 0x43, 0x68, 0x61, 0x69, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x28, 0x0a, 0x06, 0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x10, 0x2e, 0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x68,
+	0x61, 0x69, 0x72, 0x52, 0x06, 0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x22, 0x28, 0x0a, 0x12, 0x44,
+	0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x68, 0x61, 0x69, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x6f, 0x72, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x04, 0x70, 0x6f, 0x72, 0x74, 0x22, 0x3d, 0x0a, 0x13, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43,
+	0x68, 0x61, 0x69, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x26, 0x0a, 0x05,
+	0x63, 0x68, 0x61, 0x69, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x63, 0x68,
+	0x61, 0x69, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x68, 0x61, 0x69, 0x72, 0x52, 0x05, 0x63,
+	0x68, 0x61, 0x69, 0x72, 0x22, 0x47, 0x0a, 0x05, 0x43, 0x68, 0x61, 0x69, 0x72, 0x12, 0x12, 0x0a,
+	0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d,
+	0x65, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x08, 0x52, 0x06, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x6f, 0x72,
+	0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x6f, 0x72, 0x74, 0x32, 0x88, 0x03,
+	0x0a, 0x0c, 0x43, 0x68, 0x61, 0x69, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x4c,
+	0x0a, 0x0b, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43, 0x68, 0x61, 0x69, 0x72, 0x12, 0x1d, 0x2e,
+	0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
+	0x43, 0x68, 0x61, 0x69, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x63,
+	0x68, 0x61, 0x69, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x43,
+	0x68, 0x61, 0x69, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x43, 0x0a, 0x08,
+	0x47, 0x65, 0x74, 0x43, 0x68, 0x61, 0x69, 0x72, 0x12, 0x1a, 0x2e, 0x63, 0x68, 0x61, 0x69, 0x72,
+	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x68, 0x61, 0x69, 0x72, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x2e, 0x76, 0x31,
+	0x2e, 0x47, 0x65, 0x74, 0x43, 0x68, 0x61, 0x69, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x49, 0x0a, 0x0a, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x68, 0x61, 0x69, 0x72, 0x73, 0x12,
+	0x1c, 0x2e, 0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74,
+	0x43, 0x68, 0x61, 0x69, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e,
+	0x63, 0x68, 0x61, 0x69, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x68,
+	0x61, 0x69, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x4c, 0x0a, 0x0b,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x68, 0x61, 0x69, 0x72, 0x12, 0x1d, 0x2e, 0x63, 0x68,
+	0x61, 0x69, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x68,
+	0x61, 0x69, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x63, 0x68, 0x61,
+	0x69, 0x72, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x43, 0x68, 0x61,
+	0x69, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x4c, 0x0a, 0x0b, 0x44, 0x65,
+	0x6c, 0x65, 0x74, 0x65, 0x43, 0x68, 0x61, 0x69, 0x72, 0x12, 0x1d, 0x2e, 0x63, 0x68, 0x61, 0x69,
+	0x72, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x68, 0x61, 0x69,
+	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x63, 0x68, 0x61, 0x69, 0x72,
+	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x68, 0x61, 0x69, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x0c, 0x5a, 0x0a, 0x2e, 0x3b, 0x67, 0x72,
+	0x70, 0x63, 0x5f, 0x67, 0x65, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -191,21 +640,43 @@ func file_chairs_proto_rawDescGZIP() []byte {
 	return file_chairs_proto_rawDescData
 }
 
-var file_chairs_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_chairs_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_chairs_proto_goTypes = []interface{}{
-	(*ChairRequest)(nil),  // 0: ChairRequest
-	(*ChairResponse)(nil), // 1: ChairResponse
-	(*Chair)(nil),         // 2: Chair
+	(*CreateChairRequest)(nil),  // 0: chairs.v1.CreateChairRequest
+	(*CreateChairResponse)(nil), // 1: chairs.v1.CreateChairResponse
+	(*GetChairRequest)(nil),     // 2: chairs.v1.GetChairRequest
+	(*GetChairResponse)(nil),    // 3: chairs.v1.GetChairResponse
+	(*UpdateChairRequest)(nil),  // 4: chairs.v1.UpdateChairRequest
+	(*UpdateChairResponse)(nil), // 5: chairs.v1.UpdateChairResponse
+	(*ListChairsRequest)(nil),   // 6: chairs.v1.ListChairsRequest
+	(*ListChairsResponse)(nil),  // 7: chairs.v1.ListChairsResponse
+	(*DeleteChairRequest)(nil),  // 8: chairs.v1.DeleteChairRequest
+	(*DeleteChairResponse)(nil), // 9: chairs.v1.DeleteChairResponse
+	(*Chair)(nil),               // 10: chairs.v1.Chair
 }
 var file_chairs_proto_depIdxs = []int32{
-	2, // 0: ChairResponse.chair:type_name -> Chair
-	0, // 1: ChairService.GetChair:input_type -> ChairRequest
-	2, // 2: ChairService.GetChair:output_type -> Chair
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	10, // 0: chairs.v1.CreateChairRequest.chair:type_name -> chairs.v1.Chair
+	10, // 1: chairs.v1.CreateChairResponse.chair:type_name -> chairs.v1.Chair
+	10, // 2: chairs.v1.GetChairResponse.chair:type_name -> chairs.v1.Chair
+	10, // 3: chairs.v1.UpdateChairRequest.chair:type_name -> chairs.v1.Chair
+	10, // 4: chairs.v1.UpdateChairResponse.chair:type_name -> chairs.v1.Chair
+	10, // 5: chairs.v1.ListChairsResponse.chairs:type_name -> chairs.v1.Chair
+	10, // 6: chairs.v1.DeleteChairResponse.chair:type_name -> chairs.v1.Chair
+	0,  // 7: chairs.v1.ChairService.CreateChair:input_type -> chairs.v1.CreateChairRequest
+	2,  // 8: chairs.v1.ChairService.GetChair:input_type -> chairs.v1.GetChairRequest
+	6,  // 9: chairs.v1.ChairService.ListChairs:input_type -> chairs.v1.ListChairsRequest
+	4,  // 10: chairs.v1.ChairService.UpdateChair:input_type -> chairs.v1.UpdateChairRequest
+	8,  // 11: chairs.v1.ChairService.DeleteChair:input_type -> chairs.v1.DeleteChairRequest
+	1,  // 12: chairs.v1.ChairService.CreateChair:output_type -> chairs.v1.CreateChairResponse
+	3,  // 13: chairs.v1.ChairService.GetChair:output_type -> chairs.v1.GetChairResponse
+	7,  // 14: chairs.v1.ChairService.ListChairs:output_type -> chairs.v1.ListChairsResponse
+	5,  // 15: chairs.v1.ChairService.UpdateChair:output_type -> chairs.v1.UpdateChairResponse
+	9,  // 16: chairs.v1.ChairService.DeleteChair:output_type -> chairs.v1.DeleteChairResponse
+	12, // [12:17] is the sub-list for method output_type
+	7,  // [7:12] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_chairs_proto_init() }
@@ -215,7 +686,7 @@ func file_chairs_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_chairs_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ChairRequest); i {
+			switch v := v.(*CreateChairRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -227,7 +698,7 @@ func file_chairs_proto_init() {
 			}
 		}
 		file_chairs_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ChairResponse); i {
+			switch v := v.(*CreateChairResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -239,6 +710,102 @@ func file_chairs_proto_init() {
 			}
 		}
 		file_chairs_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetChairRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chairs_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetChairResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chairs_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateChairRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chairs_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateChairResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chairs_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListChairsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chairs_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListChairsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chairs_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteChairRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chairs_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteChairResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chairs_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Chair); i {
 			case 0:
 				return &v.state
@@ -257,7 +824,7 @@ func file_chairs_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_chairs_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
