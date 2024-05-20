@@ -3,6 +3,7 @@ package jwt
 import (
 	"errors"
 	"fmt"
+	"maps"
 	"time"
 
 	"github.com/DaanV2/f1-game-dashboards/server/pkg/randx"
@@ -11,6 +12,7 @@ import (
 
 type (
 	MapClaims = go_jwt.MapClaims
+	Token = go_jwt.Token
 
 	JwtService struct {
 		signingKey  *SigningInfo
@@ -99,7 +101,7 @@ func (j *JwtService) Sign(customClaims MapClaims) (string, error) {
 }
 
 // Verify tries to parse and validates the token
-func (j *JwtService) Verify(tokenStr string) (*go_jwt.Token, error) {
+func (j *JwtService) Verify(tokenStr string) (*Token, error) {
 	// Parse and verify the token
 	token, err := go_jwt.Parse(tokenStr, j.getKey, j.parseOptions...)
 
@@ -119,13 +121,11 @@ func (j *JwtService) Refresh(tokenStr string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	claims := go_jwt.MapClaims{}
+	claims := MapClaims{}
 
 	switch c := token.Claims.(type) {
 	case go_jwt.MapClaims:
-		for k, v := range c {
-			claims[k] = v
-		}
+		maps.Copy(claims, c)
 	default:
 		claims["sub"], err = c.GetSubject()
 		if err != nil {
@@ -142,7 +142,7 @@ func (j *JwtService) GetSigningKey() *SigningInfo {
 }
 
 // getKey returns either VerificationKey or VerificationKeySet
-func (j *JwtService) getKey(token *go_jwt.Token) (interface{}, error) {
+func (j *JwtService) getKey(token *Token) (interface{}, error) {
 	keys := make([]go_jwt.VerificationKey, 0)
 	kid, ok := token.Header["kid"]
 	for _, v := range j.signingKeys {
@@ -168,9 +168,7 @@ func combineClaims(claims ...MapClaims) MapClaims {
 	result := MapClaims{}
 
 	for _, c := range claims {
-		for k, v := range c {
-			result[k] = v
-		}
+		maps.Copy(result, c)
 	}
 
 	return result
