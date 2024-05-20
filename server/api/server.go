@@ -3,6 +3,7 @@ package api
 import (
 	"errors"
 
+	"github.com/DaanV2/f1-game-dashboards/server/authenication"
 	"github.com/DaanV2/f1-game-dashboards/server/sessions"
 )
 
@@ -16,7 +17,7 @@ type ApiServer struct {
 	grpcServer *grpcServer
 }
 
-func NewApiServer(chairs *sessions.ChairManager) *ApiServer {
+func NewApiServer(chairs *sessions.ChairManager, authenicator *authenication.Authenticator) *ApiServer {
 	options := apiServerOptions{
 		grpc: grpcServerOptions{
 			port: "50051",
@@ -27,7 +28,7 @@ func NewApiServer(chairs *sessions.ChairManager) *ApiServer {
 	return &ApiServer{
 		options: options,
 
-		grpcServer: newGrpcServer(chairs, options.grpc),
+		grpcServer: newGrpcServer(chairs, authenicator, options.grpc),
 	}
 }
 

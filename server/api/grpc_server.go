@@ -6,6 +6,7 @@ import (
 	"net"
 
 	grpc_gen "github.com/DaanV2/f1-game-dashboards/server/api/grpc"
+	"github.com/DaanV2/f1-game-dashboards/server/authenication"
 	"github.com/DaanV2/f1-game-dashboards/server/sessions"
 	"github.com/charmbracelet/log"
 	grpc "google.golang.org/grpc"
@@ -20,20 +21,21 @@ type grpcServerOptions struct {
 type grpcServer struct {
 	grpc_gen.UnimplementedChairServiceServer
 
-	chairs           *sessions.ChairManager
-
-	grpc *grpc.Server
+	chairs       *sessions.ChairManager
+	authenicator *authenication.Authenticator
+	grpc         *grpc.Server
 
 	options grpcServerOptions
 }
 
-func newGrpcServer(chairs *sessions.ChairManager, options grpcServerOptions) *grpcServer {
+func newGrpcServer(chairs *sessions.ChairManager, authenicator *authenication.Authenticator, options grpcServerOptions) *grpcServer {
 	return &grpcServer{
 		UnimplementedChairServiceServer: grpc_gen.UnimplementedChairServiceServer{},
 
-		chairs:           chairs,
-		options:          options,
-		grpc:             nil,
+		chairs:       chairs,
+		authenicator: authenicator,
+		options:      options,
+		grpc:         nil,
 	}
 }
 
@@ -46,11 +48,14 @@ func (s *grpcServer) Start() error {
 		return err
 	}
 
-	var opts []grpc.ServerOption
+	opts := []grpc.ServerOption{
+		grpc.ChainUnaryInterceptor(s.interceptor),
+	}
 
 	// TODO add health checking
 
 	s.grpc = grpc.NewServer(opts...)
+
 	grpc_gen.RegisterChairServiceServer(s.grpc, s)
 	reflection.Register(s.grpc)
 
@@ -74,3 +79,4 @@ func (s *grpcServer) Stop() error {
 
 	return nil
 }
+
