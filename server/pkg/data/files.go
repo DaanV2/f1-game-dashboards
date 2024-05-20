@@ -12,12 +12,19 @@ import (
 	"github.com/charmbracelet/log"
 )
 
-type FileStorage struct {
-	folder string
+type (
+	FileStorage struct {
+		folder string
 
-	chairs *TypedDirectoryStorage[sessions.Chair]
-	config *DirectoryStorage
-}
+		chairs *TypedStorage[sessions.Chair]
+		config *DirectoryStorage
+	}
+
+	DirectoryStorage struct {
+		folder string
+		lock   sync.Mutex
+	}
+)
 
 func NewFileStorage(folder string) *FileStorage {
 	if !path.IsAbs(folder) {
@@ -31,7 +38,7 @@ func NewFileStorage(folder string) *FileStorage {
 	return &FileStorage{
 		folder: folder,
 
-		chairs: NewTypedDirectoryStorage[sessions.Chair](path.Join(folder, "chairs")),
+		chairs: NewTypedStorage[sessions.Chair](NewDirectoryStorage(path.Join(folder, "chairs"))),
 		config: NewDirectoryStorage(path.Join(folder, "config")),
 	}
 }
@@ -42,23 +49,6 @@ func (fs *FileStorage) Chairs() Storage[sessions.Chair] {
 
 func (fs *FileStorage) Config() RawStorage {
 	return fs.config
-}
-
-type (
-	TypedDirectoryStorage[T any] struct {
-		*DirectoryStorage
-	}
-
-	DirectoryStorage struct {
-		folder string
-		lock   sync.Mutex
-	}
-)
-
-func NewTypedDirectoryStorage[T any](folder string) *TypedDirectoryStorage[T] {
-	return &TypedDirectoryStorage[T]{
-		DirectoryStorage: NewDirectoryStorage(folder),
-	}
 }
 
 func NewDirectoryStorage(folder string) *DirectoryStorage {
@@ -134,35 +124,6 @@ func (ds *DirectoryStorage) Keys() []string {
 	}
 
 	return keys
-}
-
-func (ds *TypedDirectoryStorage[T]) Get(id string) (T, error) {
-	var result T
-	data, err := ds.DirectoryStorage.Get(id)
-	if err != nil {
-		return result, err
-	}
-
-	err = json.Unmarshal(data, &result)
-
-	return result, err
-}
-
-func (ds *TypedDirectoryStorage[T]) Set(id string, value T) error {
-	data, err := json.Marshal(value)
-	if err != nil {
-		return err
-	}
-
-	return ds.DirectoryStorage.Set(id, data)
-}
-
-func (ds *TypedDirectoryStorage[T]) Delete(id string) error {
-	return ds.DirectoryStorage.Delete(id)
-}
-
-func (ds *TypedDirectoryStorage[T]) Keys() []string {
-	return ds.DirectoryStorage.Keys()
 }
 
 func (ds *DirectoryStorage) filepath(id string) string {

@@ -11,12 +11,14 @@ type (
 	Storage[T any] interface {
 		Get(id string) (T, error)
 		Set(id string, value T) error
+		Delete(id string) error
 		Keys() []string
 	}
 
 	RawStorage interface {
 		Get(id string) ([]byte, error)
 		Set(id string, value []byte) error
+		Delete(id string) error
 		Keys() []string
 	}
 )

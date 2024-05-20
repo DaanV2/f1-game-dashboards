@@ -13,6 +13,9 @@ func NewStorage(flags *flag.FlagSet) (Database, error) {
 	storageType := flags.Lookup("storage-type").Value.String()
 
 	switch storageType {
+	case "memory":
+		return NewMemoryStorage(), nil
+
 	case "files":
 		storageFolder := flags.Lookup("files-storage-directory").Value.String()
 		if storageFolder == "" {
@@ -20,6 +23,7 @@ func NewStorage(flags *flag.FlagSet) (Database, error) {
 		}
 
 		return NewFileStorage(storageFolder), nil
+
 	default:
 		return nil, fmt.Errorf("unknown storage type: %s", storageType)
 	}
