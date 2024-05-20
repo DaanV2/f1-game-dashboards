@@ -85,7 +85,7 @@ func ServerCmd(cmd *cobra.Command, args []string) {
 	}
 }
 
-func getChairs(database data.IDatabase) []sessions.Chair {
+func getChairs(database data.Database) []sessions.Chair {
 	chairs := make([]sessions.Chair, 0)
 	for _, k := range database.Chairs().Keys() {
 		chair, err := database.Chairs().Get(k)

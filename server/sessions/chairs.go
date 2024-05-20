@@ -3,6 +3,7 @@ package sessions
 import (
 	"fmt"
 	"maps"
+	"strconv"
 	"sync"
 
 	"github.com/DaanV2/f1-game-dashboards/server/pkg/hooks"
@@ -96,4 +97,10 @@ func (cm *ChairManager) All() map[string]Chair {
 	defer cm.chairs_lock.RUnlock()
 
 	return maps.Clone(cm.chairs)
+}
+
+// IsChairId checks if the id is a valid chair id
+func IsChairId(id string) bool {
+	_, err := strconv.Atoi(id)
+	return err == nil
 }

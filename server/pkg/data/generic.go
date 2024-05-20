@@ -9,7 +9,7 @@ import (
 	flag "github.com/spf13/pflag"
 )
 
-func NewStorage(flags *flag.FlagSet) (IDatabase, error) {
+func NewStorage(flags *flag.FlagSet) (Database, error) {
 	storageType := flags.Lookup("storage-type").Value.String()
 
 	switch storageType {
@@ -26,7 +26,7 @@ func NewStorage(flags *flag.FlagSet) (IDatabase, error) {
 }
 
 // DatabaseHooks sets up hooks to store changes in the database
-func DatabaseHooks(database IDatabase, chairs *sessions.ChairManager) {
+func DatabaseHooks(database Database, chairs *sessions.ChairManager) {
 	chairs.OnChairAdded.Add(func(chair sessions.Chair) {
 		err := database.Chairs().Set(chair.Id(), chair)
 		if err != nil {

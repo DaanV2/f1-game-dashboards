@@ -49,7 +49,7 @@ func (s *grpcServer) DeleteChair(ctx context.Context, req *grpc_gen.DeleteChairR
 	logger = logger.With("port", port)
 	logger.Info("getting chair")
 
-	if port == "" {
+	if port == "" || !sessions.IsChairId(port) {
 		logger.Error("port is required")
 		return &response, status.Error(codes.InvalidArgument, "port is required")
 	}
@@ -72,7 +72,7 @@ func (s *grpcServer) GetChair(ctx context.Context, req *grpc_gen.GetChairRequest
 
 	port := req.GetPort()
 	logger := log.FromContext(ctx).With("port", port)
-	if port == "" {
+	if port == "" || !sessions.IsChairId(port) {
 		return &response, status.Error(codes.InvalidArgument, "port is required")
 	}
 	logger.Info("getting chair")

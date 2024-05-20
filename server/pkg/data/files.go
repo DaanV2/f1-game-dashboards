@@ -15,7 +15,8 @@ import (
 type FileStorage struct {
 	folder string
 
-	chairs *DirectoryStorage[sessions.Chair]
+	chairs *TypedDirectoryStorage[sessions.Chair]
+	config *DirectoryStorage
 }
 
 func NewFileStorage(folder string) *FileStorage {
@@ -30,50 +31,59 @@ func NewFileStorage(folder string) *FileStorage {
 	return &FileStorage{
 		folder: folder,
 
-		chairs: NewDirectoryStorage[sessions.Chair](path.Join(folder, "chairs")),
+		chairs: NewTypedDirectoryStorage[sessions.Chair](path.Join(folder, "chairs")),
+		config: NewDirectoryStorage(path.Join(folder, "config")),
 	}
 }
 
-func (fs *FileStorage) Chairs() IStorage[sessions.Chair] {
+func (fs *FileStorage) Chairs() Storage[sessions.Chair] {
 	return fs.chairs
 }
 
-type DirectoryStorage[T any] struct {
-	folder string
-	lock   sync.Mutex
+func (fs *FileStorage) Config() RawStorage {
+	return fs.config
 }
 
-func NewDirectoryStorage[T any](folder string) *DirectoryStorage[T] {
+type (
+	TypedDirectoryStorage[T any] struct {
+		*DirectoryStorage
+	}
+
+	DirectoryStorage struct {
+		folder string
+		lock   sync.Mutex
+	}
+)
+
+func NewTypedDirectoryStorage[T any](folder string) *TypedDirectoryStorage[T] {
+	return &TypedDirectoryStorage[T]{
+		DirectoryStorage: NewDirectoryStorage(folder),
+	}
+}
+
+func NewDirectoryStorage(folder string) *DirectoryStorage {
 	checkFolder(folder)
 
-	return &DirectoryStorage[T]{
+	return &DirectoryStorage{
 		folder: folder,
 		lock:   sync.Mutex{},
 	}
 }
 
-func (ds *DirectoryStorage[T]) Get(id string) (T, error) {
+func (ds *DirectoryStorage) Get(id string) ([]byte, error) {
 	ds.lock.Lock()
 	defer ds.lock.Unlock()
 	filepath := ds.filepath(id)
 	log.Debug("loading from storage", "id", id, "filepath", filepath)
 
-	var result T
-
 	data, err := os.ReadFile(filepath)
 	if os.IsNotExist(err) {
-		return result, ErrNotFound
+		return data, ErrNotFound
 	}
-	if err != nil {
-		return result, err
-	}
-
-	err = json.Unmarshal(data, &result)
-
-	return result, err
+	return data, err
 }
 
-func (ds *DirectoryStorage[T]) Set(id string, value T) error {
+func (ds *DirectoryStorage) Set(id string, value []byte) error {
 	ds.lock.Lock()
 	defer ds.lock.Unlock()
 
@@ -88,7 +98,7 @@ func (ds *DirectoryStorage[T]) Set(id string, value T) error {
 	return os.WriteFile(filepath, data, 0644)
 }
 
-func (ds *DirectoryStorage[T]) Delete(id string) error {
+func (ds *DirectoryStorage) Delete(id string) error {
 	ds.lock.Lock()
 	defer ds.lock.Unlock()
 
@@ -98,7 +108,7 @@ func (ds *DirectoryStorage[T]) Delete(id string) error {
 	return os.Remove(filepath)
 }
 
-func (ds *DirectoryStorage[T]) Keys() []string {
+func (ds *DirectoryStorage) Keys() []string {
 	ds.lock.Lock()
 	defer ds.lock.Unlock()
 
@@ -126,7 +136,36 @@ func (ds *DirectoryStorage[T]) Keys() []string {
 	return keys
 }
 
-func (ds *DirectoryStorage[T]) filepath(id string) string {
+func (ds *TypedDirectoryStorage[T]) Get(id string) (T, error) {
+	var result T
+	data, err := ds.DirectoryStorage.Get(id)
+	if err != nil {
+		return result, err
+	}
+
+	err = json.Unmarshal(data, &result)
+
+	return result, err
+}
+
+func (ds *TypedDirectoryStorage[T]) Set(id string, value T) error {
+	data, err := json.Marshal(value)
+	if err != nil {
+		return err
+	}
+
+	return ds.DirectoryStorage.Set(id, data)
+}
+
+func (ds *TypedDirectoryStorage[T]) Delete(id string) error {
+	return ds.DirectoryStorage.Delete(id)
+}
+
+func (ds *TypedDirectoryStorage[T]) Keys() []string {
+	return ds.DirectoryStorage.Keys()
+}
+
+func (ds *DirectoryStorage) filepath(id string) string {
 	return path.Join(ds.folder, fmt.Sprintf("%s.json", id))
 }
 
